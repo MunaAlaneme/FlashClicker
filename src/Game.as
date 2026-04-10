@@ -45,15 +45,18 @@ package {
         private var mouseCircle2:Quad;
         private var targetX:Number = 0;
         private var targetY:Number = 0;
+        private var upgradeInfo:Array = [
+            {InitCost: new BigDouble(10,0), cost: new BigDouble(10,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Cookie Per Second"},
+            {InitCost: new BigDouble(15,0), cost: new BigDouble(15,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Cookie Per Click"},
+            {InitCost: new BigDouble(100,0), cost: new BigDouble(100,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 CPS"},
+            {InitCost: new BigDouble(150,0), cost: new BigDouble(150,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 CPC"}
+        ];
 
-        private var cookies:BigDouble = new BigDouble(0,0);
-        private var generators:BigDouble = new BigDouble(0,0);
+        private var cookies:BigDouble = new BigDouble(20,0);
+        private var toBuy:BigDouble = new BigDouble(1,0);
         private var deltaTime:BigDouble = new BigDouble(0,0);
         private var cookiesPerClick:BigDouble = new BigDouble(1,0);
         private var autoRate:BigDouble = new BigDouble(0,0); // cookies per second
-        private var upgradeCost:BigDouble = new BigDouble(10,0);
-        private var upgradeCost2:BigDouble = new BigDouble(15,0);
-        private var upgradeCost3:BigDouble = new BigDouble(100,0);
 
         private var cookieText:TextField;
         private var cpsText:TextField;
@@ -64,6 +67,8 @@ package {
         private var upgradeText2:TextField;
         private var upgradeButton3:Quad;
         private var upgradeText3:TextField;
+        private var upgradeButton4:Quad;
+        private var upgradeText4:TextField;
 
         private var musicStart:Sound;
         private var musicLoop:Sound;
@@ -72,8 +77,7 @@ package {
 
         public function Game()
         {
-            addEventListener(EnterFrameEvent.ENTER_FRAME, onUpdate);
-            Starling.current.stage.addEventListener(TouchEvent.TOUCH, onTouch);
+            addEventListener(TouchEvent.TOUCH, onTouch);
             addEventListener(Event.ENTER_FRAME, onUpdate);
             createUI();
             musicStart = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-start.mp3"));
@@ -224,6 +228,18 @@ package {
             upgradeText3.y = 500*(screenHeight/720);
             upgradeText3.touchable = false;
             addChild(upgradeText3);
+            
+            upgradeButton4 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
+            upgradeButton4.x = 490*(screenWidth/1280);
+            upgradeButton4.y = 600*(screenHeight/720);
+            upgradeButton4.addEventListener(TouchEvent.TOUCH, onUpgrade4);
+            addChild(upgradeButton4);
+
+            upgradeText4 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
+            upgradeText4.x = 490*(screenWidth/1280);
+            upgradeText4.y = 600*(screenHeight/720);
+            upgradeText4.touchable = false;
+            addChild(upgradeText4);
 
             mouseCircle2 = new Quad(20, 20, 0xFFFFAA);
             mouseCircle2.pivotX = 10;
@@ -315,69 +331,75 @@ package {
         private function onUpgrade(e:TouchEvent):void
         {
             var touch:Touch = e.getTouch(upgradeButton, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeCost)))
+            if (touch && (cookies.greaterOrEqual(upgradeInfo[0].cost)))
             {
-                cookies = cookies.subtract(upgradeCost);
-
-                // Increase production
-                autoRate = autoRate.add(new BigDouble(1,0));
-
+                cookies = cookies.subtract(upgradeInfo[0].cost);
                 // Scale cost (important for clicker games)
-                upgradeCost = upgradeCost.multiply(new BigDouble(1.1, 0));
-
+                upgradeInfo[0].number = upgradeInfo[0].number.add(toBuy);
                 updateUI();
             }
         }
         private function onUpgrade2(e:TouchEvent):void
         {
             var touch:Touch = e.getTouch(upgradeButton2, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeCost2)))
+            if (touch && (cookies.greaterOrEqual(upgradeInfo[1].cost)))
             {
-                cookies = cookies.subtract(upgradeCost2);
-
-                // Increase production
-                cookiesPerClick = cookiesPerClick.add(new BigDouble(1,0));
-
+                cookies = cookies.subtract(upgradeInfo[1].cost);
                 // Scale cost (important for clicker games)
-                upgradeCost2 = upgradeCost2.multiply(new BigDouble(1.1, 0));
-
+                upgradeInfo[1].number = upgradeInfo[1].number.add(toBuy);
                 updateUI();
             }
         }
         private function onUpgrade3(e:TouchEvent):void
         {
             var touch:Touch = e.getTouch(upgradeButton3, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeCost3)))
+            if (touch && (cookies.greaterOrEqual(upgradeInfo[2].cost)))
             {
-                cookies = cookies.subtract(upgradeCost3);
-
-                // Increase production
-                autoRate = autoRate.add(new BigDouble(5,0));
-
+                cookies = cookies.subtract(upgradeInfo[2].cost);
                 // Scale cost (important for clicker games)
-                upgradeCost3 = upgradeCost3.multiply(new BigDouble(1.1, 0));
-
+                upgradeInfo[2].number = upgradeInfo[2].number.add(toBuy);
+                updateUI();
+            }
+        }
+        private function onUpgrade4(e:TouchEvent):void
+        {
+            var touch:Touch = e.getTouch(upgradeButton4, TouchPhase.BEGAN);
+            if (touch && (cookies.greaterOrEqual(upgradeInfo[3].cost)))
+            {
+                cookies = cookies.subtract(upgradeInfo[3].cost);
+                // Scale cost (important for clicker games)
+                upgradeInfo[3].number = upgradeInfo[3].number.add(toBuy);
                 updateUI();
             }
         }
 
         private function updateUI():void
         {
+            autoRate = upgradeInfo[0].number.add(upgradeInfo[2].number.multiply(new BigDouble(5,0)));
+            cookiesPerClick = upgradeInfo[1].number.add(upgradeInfo[3].number.multiply(new BigDouble(5,0)));
             cookieText.text = "Cookies: " + formatNumber(cookies);
             cpsText.text = "Per second: " + formatNumber(autoRate) + "\nPer click: " + formatNumber(cookiesPerClick);
+            var i00001:int = -1;
+            while (++i00001 < upgradeInfo.length) {
+                upgradeInfo[i00001].cost = upgradeInfo[i00001].InitCost.multiply( upgradeInfo[i00001].coefficient.pow(upgradeInfo[i00001].number).multiply(upgradeInfo[i00001].coefficient.pow(toBuy).subtract(new BigDouble(1,0))).divide(upgradeInfo[i00001].coefficient.subtract(new BigDouble(1,0))));
+            }
 
-            upgradeText.text = "+1 Cookie Per Second\nCost: " + formatNumber(upgradeCost);
-            upgradeText2.text = "+1 Cookie Per Click\nCost: " + formatNumber(upgradeCost2);
-            upgradeText3.text = "+5 CPS\nCost: " + formatNumber(upgradeCost3);
-            if (cookies.lessThan(upgradeCost)) {
+            upgradeText.text = upgradeInfo[0].name + "\nCost: " + formatNumber(upgradeInfo[0].cost) + "\n" + formatNumber(upgradeInfo[0].number);
+            upgradeText2.text = upgradeInfo[1].name + "\nCost: " + formatNumber(upgradeInfo[1].cost) + "\n" + formatNumber(upgradeInfo[1].number);
+            upgradeText3.text = upgradeInfo[2].name + "\nCost: " + formatNumber(upgradeInfo[2].cost) + "\n" + formatNumber(upgradeInfo[2].number);
+            upgradeText4.text = upgradeInfo[3].name + "\nCost: " + formatNumber(upgradeInfo[3].cost) + "\n" + formatNumber(upgradeInfo[3].number);
+            if (cookies.lessThan(upgradeInfo[0].cost)) {
                 upgradeButton.alpha = 0.5;
             } else {upgradeButton.alpha = 1.0;}
-            if (cookies.lessThan(upgradeCost2)) {
+            if (cookies.lessThan(upgradeInfo[1].cost)) {
                 upgradeButton2.alpha = 0.5;
             } else {upgradeButton2.alpha = 1.0;}
-            if (cookies.lessThan(upgradeCost3)) {
+            if (cookies.lessThan(upgradeInfo[2].cost)) {
                 upgradeButton3.alpha = 0.5;
             } else {upgradeButton3.alpha = 1.0;}
+            if (cookies.lessThan(upgradeInfo[3].cost)) {
+                upgradeButton4.alpha = 0.5;
+            } else {upgradeButton4.alpha = 1.0;}
         }
     }
 }
