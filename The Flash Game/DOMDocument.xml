@@ -1,0 +1,83 @@
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" width="1280" height="720" frameRate="120" currentTimeline="1" xflVersion="23.0" creatorInfo="Adobe Animate" platform="Macintosh" versionInfo="Saved by Animate Macintosh 24.0 build 2" majorVersion="24" buildNumber="2" viewAngle3D="100.925968316201" vanishingPoint3DX="640" vanishingPoint3DY="360" nextSceneIdentifier="2" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" filetypeGUID="DD0DDBBF-5BEF-45B2-9F24-A3048D2A676F" fileGUID="5C67F7EF5CC1475E92039A17F5287D48">
+     <media>
+          <DOMBitmapItem name="MunaAlaneme Icon compressed.jpg" itemID="69bb5a18-00000125" sourceLastImported="1773080504" sourcePlatform="macintosh" allowSmoothing="true" quality="50" href="MunaAlaneme Icon compressed.jpg" bitmapDataHRef="M 1 1773894651.dat" frameRight="25600" frameBottom="25600" isJPEG="true"/>
+          <DOMBitmapItem name="Vector Beagle - ActionScript 3 Timer [OgKOsL4O6gw - 1102x620 - 3m31s].png" itemID="69bb7d06-000001e4" sourceExternalFilepath="./Vector Beagle - ActionScript 3 Timer [OgKOsL4O6gw - 1102x620 - 3m31s].png" sourceLastImported="1773894868" sourcePlatform="macintosh" externalFileCRC32="4002676270" externalFileSize="357026" allowSmoothing="true" originalCompressionType="lossless" quality="50" href="Vector Beagle - ActionScript 3 Timer &amp;#091OgKOsL4O6gw - 1102x620 - 3m31s&amp;#093.png" bitmapDataHRef="M 2 1773894918.dat" frameRight="22040" frameBottom="12400"/>
+     </media>
+     <symbols>
+          <Include href="Symbol 1.xml" loadImmediate="false" itemID="69bb7968-000001a1" lastModified="1773893992"/>
+          <Include href="Symbol 2.xml" loadImmediate="false" itemID="69d31977-00000125" lastModified="1775442352"/>
+     </symbols>
+     <timelines>
+          <DOMTimeline name="Scene 1" layerDepthEnabled="true">
+               <layers>
+                    <DOMLayer name="Actions" color="#9933CC" autoNamed="false">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements/>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="Layer_1" color="#00FFFF" current="true" isSelected="true" highlighted="true">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <Actionscript>
+                                        <script><![CDATA[//https://www.youtube.com/watch?v=OgKOsL4O6gwimport flash.events.*;import flash.utils.*;import flash.display.*;import flash.text.*;import flash.media.*;import flash.net.*;//starling.skipUnchangedFrames = true;var frames:int = 0;var number:int = 0;var _this = this;var TimeSinceStart:Number = 0;/*Rotates the symbol inst,ance by updating its rotation property by the specified number of degrees.To rotate the symbol instance counter clock-wise input a negative number.*/var lastTime:Number = getTimer();addEventListener(Event.ENTER_FRAME, update);function update(e:Event):void {    var currentTime:Number = getTimer();    var deltaTime:Number = (currentTime - lastTime) / 1000; // convert ms → seconds    var FPS:Number = 1/deltaTime; // convert ms → seconds    deltaTime = Math.min(deltaTime, 0.05); // max 50ms	TimeSinceStart += deltaTime;    lastTime = currentTime;	_this.movieClip_1.rotation = Math.pow(TimeSinceStart,TimeSinceStart/10)%360;	frames += 1;	_this.Text1.text = Math.pow(TimeSinceStart,TimeSinceStart/10).toFixed(4);	_this.Text1.appendText("\n" + (Math.pow(TimeSinceStart,TimeSinceStart/10)%360).toFixed(4) );	_this.Text2.text = "FPS: " + FPS;	_this.Text2.appendText("\nDeltaTime: " + deltaTime);	_this.Text2.appendText("\nTime: " + TimeSinceStart);	_this.Text2.appendText("\nFrames: " + frames);}]]></script>
+                                   </Actionscript>
+                                   <elements>
+                                        <DOMSymbolInstance libraryItemName="Symbol 1" name="movieClip_1" tabIndex="7" hasAccessibleData="true">
+                                             <matrix>
+                                                  <Matrix a="0.4964599609375" d="0.4964599609375" tx="640" ty="360"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="0.1"/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMDynamicText name="Text1" fontRenderingMode="standard" top="-17.55" left="-101.3" width="596" height="145.2" isSelectable="false" lineType="multiline">
+                                             <matrix>
+                                                  <Matrix tx="443.3" ty="22"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>1234567890&#xD;1234567890</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs alignment="center" aliasText="false" lineHeight="71.6" size="60" bitmapSize="1200" face="SFProDisplay-Medium"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMDynamicText>
+                                        <DOMDynamicText name="Text2" fontRenderingMode="standard" top="5.55" left="-72.4" width="1112.9" height="197" isSelectable="false" lineType="multiline">
+                                             <matrix>
+                                                  <Matrix tx="74.4" ty="515.45"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>FPS: 120&#xD;DeltaTime: 8.333ms&#xD;Time: 0s&#xD;Frames: 0</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs aliasText="false" lineHeight="47.75" size="40" bitmapSize="800" face="SFProDisplay-Regular"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMDynamicText>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+               </layers>
+          </DOMTimeline>
+     </timelines>
+     <scripts/>
+     <persistentData>
+          <PD n="TestMovieChecked" v="FlashPro"/>
+          <PD n="Click to Play/Stop Sound" t="i" v="2"/>
+     </persistentData>
+     <PrinterSettings platform="macintosh"/>
+     <publishHistory>
+          <PublishItem publishSize="37508447" publishTime="1775582116"/>
+          <PublishItem publishSize="37507664" publishTime="1775581187"/>
+          <PublishItem publishSize="37507666" publishTime="1775581084"/>
+          <PublishItem publishSize="37507653" publishTime="1775580130"/>
+          <PublishItem publishSize="18785328" publishTime="1775579054"/>
+          <PublishItem publishSize="37507659" publishTime="1775524765"/>
+          <PublishItem publishSize="37507589" publishTime="1775524555"/>
+     </publishHistory>
+</DOMDocument>
