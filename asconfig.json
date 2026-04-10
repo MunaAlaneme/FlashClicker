@@ -5,7 +5,7 @@
             "src",
             "lib"
         ],
-        "output": "bin/Main.swf"
+        "output": "bin/FlashClicker.swf"
     },
     "mainClass": "Main",
     "application": "src/Main-app.xml"

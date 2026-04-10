@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch SWF",
             "preLaunchTask": "ActionScript: compile debug - asconfig.json",
-            "program": "The Flash Game.swf"
+            "program": "FlashClicker.swf"
         }
     ]
 }

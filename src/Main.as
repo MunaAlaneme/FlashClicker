@@ -10,7 +10,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 java -jar /Users/munaalaneme/.vscode/extensions/bowlerhatllc.vscode-as3mxml-1.24.0/bin/asconfigc.jar --sdk /Applications/AIRSDK_51.3.1 --debug=true --project asconfig.json --unpackage-anes=true
 "/Volumes/PortableSSD/Default Folder/jdk-26.jdk/Contents/Home/bin/java" -jar /Users/munaalaneme/.vscode/extensions/bowlerhatllc.vscode-as3mxml-1.24.0/bin/asconfigc.jar --sdk /Applications/AIRSDK_51.3.1 --debug=true --project asconfig.json --unpackage-anes=true
-"/Volumes/PortableSSD/Default Folder/jdk-21.0.10.jdk/Contents/Home/bin/java" -jar /Users/munaalaneme/.vscode/extensions/bowlerhatllc.vscode-as3mxml-1.24.0/bin/asconfigc.jar --sdk /Applications/AIRSDK_51.3.1 --debug=true --project "/Volumes/PortableSSD/Default Folder/Flash game/asconfig.json" --unpackage-anes=true
+"/Volumes/PortableSSD/Default Folder/jdk-21.0.10.jdk/Contents/Home/bin/java" -jar /Users/munaalaneme/.vscode/extensions/bowlerhatllc.vscode-as3mxml-1.24.0/bin/asconfigc.jar --sdk /Applications/AIRSDK_51.3.1 --debug=true --project "/Volumes/PortableSSD/Default Folder/FlashClicker/asconfig.json" --unpackage-anes=true
 
 
 https://flex.apache.org/community-3rdparty.html

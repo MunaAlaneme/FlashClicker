@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/51.3">
-    <id>com.MunaAlaneme.TheFlashGame</id>
+    <id>com.MunaAlaneme.FlashClicker</id>
     <versionNumber>0.0.0.1</versionNumber>
     <filename>TheFlashGame</filename>
     <name>TheFlashGame</name>
     <initialWindow>
-        <content>Main.swf</content>
+        <content>FlashClicker.swf</content>
         <renderMode>direct</renderMode>
 		<depthAndStencil>true</depthAndStencil>
 		<visible>true</visible>
