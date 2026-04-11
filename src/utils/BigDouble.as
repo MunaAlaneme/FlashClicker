@@ -3,9 +3,9 @@ package utils
     public class BigDouble
     {
         public var mantissa:Number;
-        public var exponent:int;
+        public var exponent:Number;
 
-        public function BigDouble(m:Number = 0, e:int = 0)
+        public function BigDouble(m:Number = 0, e:Number = 0)
         {
             mantissa = m;
             exponent = e;
@@ -22,7 +22,7 @@ package utils
             }
 
             var log10:Number = Math.log(Math.abs(mantissa)) / Math.LN10;
-            var shift:int = int(Math.floor(log10));
+            var shift:Number = Number(Math.floor(log10));
 
             mantissa /= Math.pow(10, shift);
             exponent += shift;
@@ -46,7 +46,7 @@ package utils
             if (mantissa == 0) return other.clone();
             if (other.mantissa == 0) return clone();
 
-            var diff:int = exponent - other.exponent;
+            var diff:Number = exponent - other.exponent;
 
             if (diff > 15) return clone();
             if (diff < -15) return other.clone();
@@ -85,7 +85,7 @@ package utils
             var log10:Number = this.log10();
             var resultLog:Number = log10 * n;
 
-            var newExp:int = Math.floor(resultLog);
+            var newExp:Number = Math.floor(resultLog);
             var newMan:Number = Math.pow(10, resultLog - newExp);
 
             return new BigDouble(newMan, newExp);
@@ -93,7 +93,7 @@ package utils
         public function powBig(other:BigDouble):BigDouble
         {
             var resultLog:Number = this.log10() * other.toNumber();
-            var newExp:int = Math.floor(resultLog);
+            var newExp:Number = Math.floor(resultLog);
             var newMan:Number = Math.pow(10, resultLog - newExp);
 
             return new BigDouble(newMan, newExp);
@@ -181,7 +181,7 @@ package utils
         {
             if (n == 0) return new BigDouble(0, 0);
 
-            var e:int = Math.floor(Math.log(Math.abs(n)) / Math.LN10);
+            var e:Number = Math.floor(Math.log(Math.abs(n)) / Math.LN10);
             var m:Number = n / Math.pow(10, e);
 
             return new BigDouble(m, e);

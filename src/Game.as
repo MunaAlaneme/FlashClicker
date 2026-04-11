@@ -70,19 +70,48 @@ package {
         private var upgradeButton4:Quad;
         private var upgradeText4:TextField;
 
+        private var ToBuyButton:Quad;
+        private var ToBuyText:TextField;
+
         private var musicStart:Sound;
         private var musicLoop:Sound;
+        private var clickSound:Sound;
+        private var upgradeSound:Sound;
 
         private var musicChannel:SoundChannel;
+        private var soundsChannel:SoundChannel;
+
+        public function randomInt(min:int = 0, max:int = int.MAX_VALUE):int
+        {
+            if (min == max) return min;
+            if (min < max) return min + (Math.random() * (max - min + 1));
+            else return max + (Math.random() * (min - max + 1));
+        }
+        public function randomDouble(min:Number = 0, max:Number = Number.MAX_VALUE):Number
+        {
+            if (min == max) return min;
+            if (min < max) return min + (Math.random() * (max - min + 1));
+            else return max + (Math.random() * (min - max + 1));
+        }
 
         public function Game()
         {
             addEventListener(TouchEvent.TOUCH, onTouch);
             addEventListener(Event.ENTER_FRAME, onUpdate);
             createUI();
-            musicStart = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-start.mp3"));
-            musicLoop  = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-loop.mp3"));
-
+            var i:int = randomInt(1,3);
+            if (i == 1) {
+                musicStart = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-start.mp3"));
+                musicLoop  = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-loop.mp3"));
+            } else if (i == 2) {
+                musicStart = new Sound(new URLRequest("assets/audio/music/Casino Park - Sonic Heroes [OST]-start.mp3"));
+                musicLoop  = new Sound(new URLRequest("assets/audio/music/Casino Park - Sonic Heroes [OST]-loop.mp3"));
+            } else if (i == 3) {
+                musicStart = new Sound(new URLRequest("assets/audio/music/2024 OSHIN - November22nd12AM.mp3"));
+                musicLoop  = new Sound(new URLRequest("assets/audio/music/2024 OSHIN - November22nd12AM.mp3"));
+            }
+            clickSound = new Sound(new URLRequest("assets/audio/sound/Sample_0002.mp3"));
+            upgradeSound = new Sound(new URLRequest("assets/audio/sound/Sample_0018.mp3"));
             playStartMusic();
         }
         private function playStartMusic():void
@@ -110,6 +139,7 @@ package {
                 // Click effect
                 if (touch.phase == TouchPhase.BEGAN)
                 {
+                    soundsChannel = clickSound.play();
                     mouseCircle2.scaleX = mouseCircle2.scaleY = 1.6;
                 }
             }
@@ -146,7 +176,7 @@ package {
             // Suffix list
             var suffixes:Array = [
                 "", "K", "M", "B", "T",
-                "Qa", "Qi", "Sx", "Sp", "Oc", "No"
+                "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc", "UDc"
             ];
 
             var tier:int = Math.floor(exp / 3);
@@ -192,6 +222,19 @@ package {
             cookieButton.addEventListener(TouchEvent.TOUCH, onCookieClick);
             addChild(cookieButton);
 
+            // To Buy Button
+            ToBuyButton = new Quad(100*(screenWidth/1280), 50*(screenHeight/720), 0x4444AA);
+            ToBuyButton.x = 400*(screenWidth/1280);
+            ToBuyButton.y = 150*(screenHeight/720);
+            ToBuyButton.addEventListener(TouchEvent.TOUCH, onUpgrade);
+            addChild(ToBuyButton);
+
+            ToBuyText = new TextField(100, 50, "", new TextFormat("Verdana", 20, 0xFFFFFF));
+            ToBuyText.x = 400*(screenWidth/1280);
+            ToBuyText.y = 150*(screenHeight/720);
+            ToBuyText.touchable = false;
+            addChild(ToBuyText);
+
             // Upgrade button
             upgradeButton = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
             upgradeButton.x = 140*(screenWidth/1280);
@@ -208,7 +251,7 @@ package {
             upgradeButton2 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
             upgradeButton2.x = 490*(screenWidth/1280);
             upgradeButton2.y = 500*(screenHeight/720);
-            upgradeButton2.addEventListener(TouchEvent.TOUCH, onUpgrade2);
+            upgradeButton2.addEventListener(TouchEvent.TOUCH, onUpgrade);
             addChild(upgradeButton2);
 
             upgradeText2 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
@@ -220,7 +263,7 @@ package {
             upgradeButton3 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
             upgradeButton3.x = 840*(screenWidth/1280);
             upgradeButton3.y = 500*(screenHeight/720);
-            upgradeButton3.addEventListener(TouchEvent.TOUCH, onUpgrade3);
+            upgradeButton3.addEventListener(TouchEvent.TOUCH, onUpgrade);
             addChild(upgradeButton3);
 
             upgradeText3 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
@@ -232,7 +275,7 @@ package {
             upgradeButton4 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
             upgradeButton4.x = 490*(screenWidth/1280);
             upgradeButton4.y = 600*(screenHeight/720);
-            upgradeButton4.addEventListener(TouchEvent.TOUCH, onUpgrade4);
+            upgradeButton4.addEventListener(TouchEvent.TOUCH, onUpgrade);
             addChild(upgradeButton4);
 
             upgradeText4 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
@@ -330,42 +373,55 @@ package {
 
         private function onUpgrade(e:TouchEvent):void
         {
-            var touch:Touch = e.getTouch(upgradeButton, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeInfo[0].cost)))
+            if (e.getTouch(ToBuyButton, TouchPhase.BEGAN))
             {
+                soundsChannel = upgradeSound.play();
+                if (toBuy.equals(new BigDouble(1,0))) {
+                    toBuy = new BigDouble(5,0);
+                } else if (toBuy.equals(new BigDouble(5,0))) {
+                    toBuy = new BigDouble(10,0);
+                } else if (toBuy.equals(new BigDouble(10,0))) {
+                    toBuy = new BigDouble(25,0);
+                } else if (toBuy.equals(new BigDouble(25,0))) {
+                    toBuy = new BigDouble(50,0);
+                } else if (toBuy.equals(new BigDouble(50,0))) {
+                    toBuy = new BigDouble(100,0);
+                } else if (toBuy.equals(new BigDouble(100,0))) {
+                    toBuy = new BigDouble(500,0);
+                } else if (toBuy.equals(new BigDouble(500,0))) {
+                    toBuy = new BigDouble(1000,0);
+                } else if (toBuy.equals(new BigDouble(1000,0))) {
+                    toBuy = new BigDouble(1,0);
+                }
+                updateUI();
+            }
+            if (e.getTouch(upgradeButton, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[0].cost)))
+            {
+                soundsChannel = upgradeSound.play();
                 cookies = cookies.subtract(upgradeInfo[0].cost);
                 // Scale cost (important for clicker games)
                 upgradeInfo[0].number = upgradeInfo[0].number.add(toBuy);
                 updateUI();
             }
-        }
-        private function onUpgrade2(e:TouchEvent):void
-        {
-            var touch:Touch = e.getTouch(upgradeButton2, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeInfo[1].cost)))
+            if (e.getTouch(upgradeButton2, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[1].cost)))
             {
+                soundsChannel = upgradeSound.play();
                 cookies = cookies.subtract(upgradeInfo[1].cost);
                 // Scale cost (important for clicker games)
                 upgradeInfo[1].number = upgradeInfo[1].number.add(toBuy);
                 updateUI();
             }
-        }
-        private function onUpgrade3(e:TouchEvent):void
-        {
-            var touch:Touch = e.getTouch(upgradeButton3, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeInfo[2].cost)))
+            if (e.getTouch(upgradeButton3, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[2].cost)))
             {
+                soundsChannel = upgradeSound.play();
                 cookies = cookies.subtract(upgradeInfo[2].cost);
                 // Scale cost (important for clicker games)
                 upgradeInfo[2].number = upgradeInfo[2].number.add(toBuy);
                 updateUI();
             }
-        }
-        private function onUpgrade4(e:TouchEvent):void
-        {
-            var touch:Touch = e.getTouch(upgradeButton4, TouchPhase.BEGAN);
-            if (touch && (cookies.greaterOrEqual(upgradeInfo[3].cost)))
+            if (e.getTouch(upgradeButton4, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[3].cost)))
             {
+                soundsChannel = upgradeSound.play();
                 cookies = cookies.subtract(upgradeInfo[3].cost);
                 // Scale cost (important for clicker games)
                 upgradeInfo[3].number = upgradeInfo[3].number.add(toBuy);
@@ -383,6 +439,8 @@ package {
             while (++i00001 < upgradeInfo.length) {
                 upgradeInfo[i00001].cost = upgradeInfo[i00001].InitCost.multiply( upgradeInfo[i00001].coefficient.pow(upgradeInfo[i00001].number).multiply(upgradeInfo[i00001].coefficient.pow(toBuy).subtract(new BigDouble(1,0))).divide(upgradeInfo[i00001].coefficient.subtract(new BigDouble(1,0))));
             }
+
+            ToBuyText.text = "x" + int(toBuy);
 
             upgradeText.text = upgradeInfo[0].name + "\nCost: " + formatNumber(upgradeInfo[0].cost) + "\n" + formatNumber(upgradeInfo[0].number);
             upgradeText2.text = upgradeInfo[1].name + "\nCost: " + formatNumber(upgradeInfo[1].cost) + "\n" + formatNumber(upgradeInfo[1].number);
