@@ -14,9 +14,7 @@ package {
     import starling.text.*;
     import starling.geom.*;
     import utils.BigDouble;
-    import starling.animation.Tween;
     import starling.filters.*;
-    import starling.display.Image;
     import flash.geom.Point;
     import flash.utils.getTimer;
     import flash.media.*;
@@ -30,6 +28,12 @@ package {
         {
             var t:Tween = new Tween(obj, 0.1);
             t.scaleTo(scale);
+            Starling.juggler.add(t);
+        }
+        private function tweenPos(obj:DisplayObject, x:Number, y:Number):void
+        {
+            var t:Tween = new Tween(obj, 0.1);
+            t.moveTo(x, y);
             Starling.juggler.add(t);
         }
 
@@ -46,40 +50,82 @@ package {
         private var targetX:Number = 0;
         private var targetY:Number = 0;
         private var upgradeInfo:Array = [
-            {InitCost: new BigDouble(10,0), cost: new BigDouble(10,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Cookie Per Second"},
-            {InitCost: new BigDouble(15,0), cost: new BigDouble(15,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Cookie Per Click"},
-            {InitCost: new BigDouble(100,0), cost: new BigDouble(100,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 CPS"},
-            {InitCost: new BigDouble(150,0), cost: new BigDouble(150,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 CPC"}
+            {InitCost: new BigDouble(10,0), cost: new BigDouble(10,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Second", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
+            {InitCost: new BigDouble(15,0), cost: new BigDouble(15,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Click", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
+            {InitCost: new BigDouble(100,0), cost: new BigDouble(100,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
+            {InitCost: new BigDouble(150,0), cost: new BigDouble(150,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
+            {InitCost: new BigDouble(1000,0), cost: new BigDouble(1000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
+            {InitCost: new BigDouble(1500,0), cost: new BigDouble(1500,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)}
+        ];
+        private var upgradeMilestonesLevels:Array = [
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000]
+        ];
+        private var upgradeMilestonesMultipliers:Array = [
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999]
         ];
 
-        private var cookies:BigDouble = new BigDouble(20,0);
-        private var toBuy:BigDouble = new BigDouble(1,0);
-        private var deltaTime:BigDouble = new BigDouble(0,0);
-        private var cookiesPerClick:BigDouble = new BigDouble(1,0);
-        private var autoRate:BigDouble = new BigDouble(0,0); // cookies per second
+        private var note:String;
+        private var noteMax:Number = 5;
+        private var timeTotal:Number = 0;
 
-        private var cookieText:TextField;
-        private var cpsText:TextField;
-        private var cookieButton:Quad;
-        private var upgradeButton:Quad;
-        private var upgradeText:TextField;
-        private var upgradeButton2:Quad;
-        private var upgradeText2:TextField;
-        private var upgradeButton3:Quad;
-        private var upgradeText3:TextField;
-        private var upgradeButton4:Quad;
-        private var upgradeText4:TextField;
+        private var flashes:BigDouble = new BigDouble(20,0);
+        private var toBuy:BigDouble = new BigDouble(1,0);
+        private var toBuy2:Array = [];
+        private var toBuyMax:Boolean = false;
+        private var toBuyOCD:Boolean = false;
+        private var flashesPerClick:BigDouble = new BigDouble(1,0);
+        private var autoRate:BigDouble = new BigDouble(0,0); // flashes per second
+
+        private var flashText:TextField;
+        private var flpsText:TextField;
+        private var flashButton:Canvas;
+        private var upgradeButtons:Array = [];
+        private var upgradeTexts:Array = [];
 
         private var ToBuyButton:Quad;
         private var ToBuyText:TextField;
+        private var ToBuyMaxButton:Quad;
+        private var ToBuyMaxText:TextField;
+        private var ToBuyOCDButton:Quad;
+        private var ToBuyOCDText:TextField;
 
         private var musicStart:Sound;
         private var musicLoop:Sound;
         private var clickSound:Sound;
         private var upgradeSound:Sound;
+        private var upgradeMilestoneSound:Sound;
 
         private var musicChannel:SoundChannel;
         private var soundsChannel:SoundChannel;
+
+        private function createLightning(scale:Number):Canvas
+        {
+            var c:Canvas = new Canvas();
+            c.beginFill(0xFFFF00); // yellow
+
+            // Lightning bolt shape
+            c.moveTo(0, 0);
+            c.lineTo(20*scale, 0);
+            c.lineTo(10*scale, 25*scale);
+            c.lineTo(25*scale, 25*scale);
+            c.lineTo(0, 60*scale);
+            c.lineTo(8*scale, 35*scale);
+            c.lineTo(-5*scale, 35*scale);
+
+            c.endFill();
+
+            return c;
+        }
 
         public function randomInt(min:int = 0, max:int = int.MAX_VALUE):int
         {
@@ -112,6 +158,7 @@ package {
             }
             clickSound = new Sound(new URLRequest("assets/audio/sound/Sample_0002.mp3"));
             upgradeSound = new Sound(new URLRequest("assets/audio/sound/Sample_0018.mp3"));
+            upgradeMilestoneSound = new Sound(new URLRequest("assets/audio/sound/cybershock sfx_upgrade.mp3"));
             playStartMusic();
         }
         private function playStartMusic():void
@@ -205,22 +252,30 @@ package {
         }
         private function createUI():void
         {
+            for (var i:int = 0; i < 6; i++) {
+                upgradeTexts.push(new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF)));
+                upgradeButtons.push(new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA));
+            }
             // Score
-            cookieText = new TextField(1280, 60, "", new TextFormat("Verdana", 32, 0xFFFFFF));
-            cookieText.y = 20;
-            addChild(cookieText);
+            flashText = new TextField(1280, 40, "", new TextFormat("Verdana", 32, 0xFFFFFF));
+            flashText.y = 20;
+            addChild(flashText);
 
-            cpsText = new TextField(1280, 70, "", new TextFormat("Verdana", 20, 0xAAAAAA));
-            cpsText.y = 70;
-            addChild(cpsText);
+            flpsText = new TextField(1280, 100, "", new TextFormat("Verdana", 20, 0xAAAAAA));
+            flpsText.y = 45;
+            addChild(flpsText);
 //button.x = screenWidth * 0.5;
 //button.y = screenHeight * 0.8;
-            // Cookie button
-            cookieButton = new Quad(250*(screenWidth/1280), 250*(screenHeight/720), 0xCC9900);
-            cookieButton.x = 515*(screenWidth/1280);
-            cookieButton.y = 200*(screenHeight/720);
-            cookieButton.addEventListener(TouchEvent.TOUCH, onCookieClick);
-            addChild(cookieButton);
+            // Flash button
+            flashButton = createLightning(4);
+            //flashButton = new Quad(250*(screenWidth/1280), 250*(screenHeight/720), 0xCC9900);
+            flashButton.x = 640;
+            flashButton.y = 200;
+            flashButton.width = 120;
+            flashButton.height = 240;
+            flashButton.addEventListener(TouchEvent.TOUCH, onFlashClick);
+            flashButton.addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            addChild(flashButton);
 
             // To Buy Button
             ToBuyButton = new Quad(100*(screenWidth/1280), 50*(screenHeight/720), 0x4444AA);
@@ -228,6 +283,21 @@ package {
             ToBuyButton.y = 150*(screenHeight/720);
             ToBuyButton.addEventListener(TouchEvent.TOUCH, onUpgrade);
             addChild(ToBuyButton);
+            ToBuyButton.addEventListener(TouchEvent.TOUCH, onButtonTouch);
+
+            ToBuyMaxButton = new Quad(150*(screenWidth/1280), 50*(screenHeight/720), 0x4444AA);
+            ToBuyMaxButton.x = 350*(screenWidth/1280);
+            ToBuyMaxButton.y = 225*(screenHeight/720);
+            ToBuyMaxButton.addEventListener(TouchEvent.TOUCH, onUpgrade);
+            addChild(ToBuyMaxButton);
+            ToBuyMaxButton.addEventListener(TouchEvent.TOUCH, onButtonTouch);
+
+            ToBuyOCDButton = new Quad(150*(screenWidth/1280), 50*(screenHeight/720), 0x4444AA);
+            ToBuyOCDButton.x = 350*(screenWidth/1280);
+            ToBuyOCDButton.y = 300*(screenHeight/720);
+            ToBuyOCDButton.addEventListener(TouchEvent.TOUCH, onUpgrade);
+            addChild(ToBuyOCDButton);
+            ToBuyOCDButton.addEventListener(TouchEvent.TOUCH, onButtonTouch);
 
             ToBuyText = new TextField(100, 50, "", new TextFormat("Verdana", 20, 0xFFFFFF));
             ToBuyText.x = 400*(screenWidth/1280);
@@ -235,54 +305,79 @@ package {
             ToBuyText.touchable = false;
             addChild(ToBuyText);
 
+            ToBuyMaxText = new TextField(150, 50, "", new TextFormat("Verdana", 20, 0xFFFFFF));
+            ToBuyMaxText.x = 350*(screenWidth/1280);
+            ToBuyMaxText.y = 225*(screenHeight/720);
+            ToBuyMaxText.touchable = false;
+            addChild(ToBuyMaxText);
+
+            ToBuyOCDText = new TextField(150, 50, "", new TextFormat("Verdana", 20, 0xFFFFFF));
+            ToBuyOCDText.x = 350*(screenWidth/1280);
+            ToBuyOCDText.y = 300*(screenHeight/720);
+            ToBuyOCDText.touchable = false;
+            addChild(ToBuyOCDText);
+
             // Upgrade button
-            upgradeButton = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
-            upgradeButton.x = 140*(screenWidth/1280);
-            upgradeButton.y = 500*(screenHeight/720);
-            upgradeButton.addEventListener(TouchEvent.TOUCH, onUpgrade);
-            addChild(upgradeButton);
+            upgradeButtons[0].x = 140;
+            upgradeButtons[0].y = 480;
+            upgradeButtons[0].addEventListener(TouchEvent.TOUCH, onUpgrade);
 
-            upgradeText = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
-            upgradeText.x = 140*(screenWidth/1280);
-            upgradeText.y = 500*(screenHeight/720);
-            upgradeText.touchable = false;
-            addChild(upgradeText);
+            upgradeTexts[0].x = 140;
+            upgradeTexts[0].y = 480;
+            upgradeTexts[0].touchable = false;
 
-            upgradeButton2 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
-            upgradeButton2.x = 490*(screenWidth/1280);
-            upgradeButton2.y = 500*(screenHeight/720);
-            upgradeButton2.addEventListener(TouchEvent.TOUCH, onUpgrade);
-            addChild(upgradeButton2);
+            upgradeButtons[1].x = 490;
+            upgradeButtons[1].y = 480;
+            upgradeButtons[1].addEventListener(TouchEvent.TOUCH, onUpgrade);
 
-            upgradeText2 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
-            upgradeText2.x = 490*(screenWidth/1280);
-            upgradeText2.y = 500*(screenHeight/720);
-            upgradeText2.touchable = false;
-            addChild(upgradeText2);
+            upgradeTexts[1].x = 490;
+            upgradeTexts[1].y = 480;
+            upgradeTexts[1].touchable = false;
 
-            upgradeButton3 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
-            upgradeButton3.x = 840*(screenWidth/1280);
-            upgradeButton3.y = 500*(screenHeight/720);
-            upgradeButton3.addEventListener(TouchEvent.TOUCH, onUpgrade);
-            addChild(upgradeButton3);
+            upgradeButtons[2].x = 840;
+            upgradeButtons[2].y = 480;
+            upgradeButtons[2].addEventListener(TouchEvent.TOUCH, onUpgrade);
 
-            upgradeText3 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
-            upgradeText3.x = 840*(screenWidth/1280);
-            upgradeText3.y = 500*(screenHeight/720);
-            upgradeText3.touchable = false;
-            addChild(upgradeText3);
-            
-            upgradeButton4 = new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA);
-            upgradeButton4.x = 490*(screenWidth/1280);
-            upgradeButton4.y = 600*(screenHeight/720);
-            upgradeButton4.addEventListener(TouchEvent.TOUCH, onUpgrade);
-            addChild(upgradeButton4);
+            upgradeTexts[2].x = 840;
+            upgradeTexts[2].y = 480;
+            upgradeTexts[2].touchable = false;
 
-            upgradeText4 = new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF));
-            upgradeText4.x = 490*(screenWidth/1280);
-            upgradeText4.y = 600*(screenHeight/720);
-            upgradeText4.touchable = false;
-            addChild(upgradeText4);
+            upgradeButtons[3].x = 140;
+            upgradeButtons[3].y = 600;
+            upgradeButtons[3].addEventListener(TouchEvent.TOUCH, onUpgrade);
+
+            upgradeTexts[3].x = 140;
+            upgradeTexts[3].y = 600;
+            upgradeTexts[3].touchable = false;
+
+            upgradeButtons[4].x = 490;
+            upgradeButtons[4].y = 600;
+            upgradeButtons[4].addEventListener(TouchEvent.TOUCH, onUpgrade);
+
+            upgradeTexts[4].x = 490;
+            upgradeTexts[4].y = 600;
+            upgradeTexts[4].touchable = false;
+
+            upgradeButtons[5].x = 840;
+            upgradeButtons[5].y = 600;
+            upgradeButtons[5].addEventListener(TouchEvent.TOUCH, onUpgrade);
+
+            upgradeTexts[5].x = 840;
+            upgradeTexts[5].y = 600;
+            upgradeTexts[5].touchable = false;
+
+            upgradeButtons[0].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            upgradeButtons[1].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            upgradeButtons[2].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            upgradeButtons[3].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            upgradeButtons[4].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+            upgradeButtons[5].addEventListener(TouchEvent.TOUCH, onButtonTouch);
+
+            for (i = 0; i < 6; i++) {
+                addChild(upgradeButtons[i]);
+                addChild(upgradeTexts[i]);
+                toBuy2.push(new BigDouble(1,0));
+            }
 
             mouseCircle2 = new Quad(20, 20, 0xFFFFAA);
             mouseCircle2.pivotX = 10;
@@ -316,9 +411,10 @@ package {
 
             mouseCircle2.alpha = Math.min(1, dist / 40 + 0.2);
             var dt:Number = e.passedTime; // seconds since last frame
+            timeTotal+=dt;
 
-            // Auto cookies
-            cookies = cookies.add(autoRate.multiply(new BigDouble(dt, 0)));
+            // Auto flashes
+            flashes = flashes.add(autoRate.multiply(new BigDouble(dt, 0)));
 
             updateUI();
         }
@@ -328,14 +424,48 @@ package {
 
             var touch:Touch = e.getTouch(btn);
             var filter:ColorMatrixFilter = new ColorMatrixFilter();
+            var x:Number = btn.x;
+            var y:Number = btn.y;
+            if (btn == flashButton) {
+                x = 640;
+                y = 200;
+            }
+            if (btn == upgradeButtons[0] || btn == upgradeButtons[1] || btn == upgradeButtons[2]) {
+                y = 480;
+            }
+            if (btn == upgradeButtons[3] || btn == upgradeButtons[4] || btn == upgradeButtons[5]) {
+                y = 600;
+            }
+            if (btn == upgradeButtons[0] || btn == upgradeButtons[3]) {
+                x = 140;
+            }
+            if (btn == upgradeButtons[1] || btn == upgradeButtons[4]) {
+                x = 490;
+            }
+            if (btn == upgradeButtons[2] || btn == upgradeButtons[5]) {
+                x = 840;
+            }
+            if (btn == ToBuyButton) {
+                x = 400;
+                y = 150;
+            }
+            if (btn == ToBuyMaxButton || btn == ToBuyOCDButton) {
+                x = 350;
+            }
+            if (btn == ToBuyMaxButton) {
+                y = 225;
+            }
+            if (btn == ToBuyOCDButton) {
+                y = 300;
+            }
 
             if (!touch)
             {
                 // Mouse left button
                 btn.alpha = 1.0;
                 tweenScale(btn, 1.0)
+                tweenPos(btn, x, y)
                 btn.filter = null;
-                Image(btn).color = 0xFFFFFF;
                 return;
             }
 
@@ -344,29 +474,32 @@ package {
                 // Hover effect
                 btn.alpha = 0.8;
                 tweenScale(btn, 1.05)
+                tweenPos(btn, (x - (btn.width*0.025)), y - (btn.height*0.025))
                 btn.filter = new GlowFilter(0xFFFFFF, 0.5, 8, 8);
             }
             else if (touch.phase == TouchPhase.BEGAN)
             {
                 // Click press
                 tweenScale(btn, 0.95)
-                filter.tint(0xFFFFAA, 0.3);
+                tweenPos(btn, (x + (btn.width*0.025)), y + (btn.height*0.025))
+                filter.tint(0xFFFFAA, 0.5);
 
                 btn.filter = filter;
             }
             else if (touch.phase == TouchPhase.ENDED)
             {
                 // Release
+                tweenPos(btn, (x - (btn.width*0.025)), y - (btn.height*0.025))
                 tweenScale(btn, 1.05)
             }
         }
 
-        private function onCookieClick(e:TouchEvent):void
+        private function onFlashClick(e:TouchEvent):void
         {
-            var touch:Touch = e.getTouch(cookieButton, TouchPhase.BEGAN);
+            var touch:Touch = e.getTouch(flashButton, TouchPhase.BEGAN);
             if (touch)
             {
-                cookies = cookies.add(cookiesPerClick);
+                flashes = flashes.add(flashesPerClick);
                 updateUI();
             }
         }
@@ -395,69 +528,105 @@ package {
                 }
                 updateUI();
             }
-            if (e.getTouch(upgradeButton, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[0].cost)))
+            if (e.getTouch(ToBuyMaxButton, TouchPhase.BEGAN))
             {
                 soundsChannel = upgradeSound.play();
-                cookies = cookies.subtract(upgradeInfo[0].cost);
-                // Scale cost (important for clicker games)
-                upgradeInfo[0].number = upgradeInfo[0].number.add(toBuy);
+                toBuyMax = !toBuyMax;
                 updateUI();
             }
-            if (e.getTouch(upgradeButton2, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[1].cost)))
+            if (e.getTouch(ToBuyOCDButton, TouchPhase.BEGAN))
             {
                 soundsChannel = upgradeSound.play();
-                cookies = cookies.subtract(upgradeInfo[1].cost);
-                // Scale cost (important for clicker games)
-                upgradeInfo[1].number = upgradeInfo[1].number.add(toBuy);
+                toBuyOCD = !toBuyOCD;
                 updateUI();
             }
-            if (e.getTouch(upgradeButton3, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[2].cost)))
-            {
-                soundsChannel = upgradeSound.play();
-                cookies = cookies.subtract(upgradeInfo[2].cost);
-                // Scale cost (important for clicker games)
-                upgradeInfo[2].number = upgradeInfo[2].number.add(toBuy);
-                updateUI();
+            for (var i:int = 0; i < 6; i++) {
+                if (e.getTouch(upgradeButtons[i], TouchPhase.BEGAN) && (flashes.greaterOrEqual(upgradeInfo[i].cost)))
+                {
+                    soundsChannel = upgradeSound.play();
+                    flashes = flashes.subtract(upgradeInfo[i].cost);
+                    upgradeInfo[i].number = upgradeInfo[i].number.add(toBuy2[i]);
+                    // Scale cost (important for clicker games)
+                    updateUI();
+                }
+                if (upgradeInfo[i].lastMultiplier != upgradeInfo[i].multiplier) {
+                    soundsChannel = upgradeMilestoneSound.play();
+                    trace(upgradeInfo.lastMultiplier);
+                }
+                upgradeInfo[i].lastMultiplier = upgradeInfo[i].multiplier
+                upgradeInfo[i].multiplier = new BigDouble(1,0);
+                for (var j:int = 0; j < upgradeMilestonesLevels[i].length; j++) {
+                    upgradeMilestonesLevels[i][j] = BigDouble.fromNumber(upgradeMilestonesLevels[i][j]);
+                    if (upgradeInfo[i].number.greaterOrEqual(upgradeMilestonesLevels[i][j])) {
+                        upgradeMilestonesMultipliers[i][j] =  BigDouble.fromNumber(upgradeMilestonesMultipliers[i][j]);
+                        upgradeInfo[i].multiplier = upgradeInfo[i].multiplier.multiply(upgradeMilestonesMultipliers[i][j]);
+                    }
+                }
             }
-            if (e.getTouch(upgradeButton4, TouchPhase.BEGAN) && (cookies.greaterOrEqual(upgradeInfo[3].cost)))
-            {
-                soundsChannel = upgradeSound.play();
-                cookies = cookies.subtract(upgradeInfo[3].cost);
-                // Scale cost (important for clicker games)
-                upgradeInfo[3].number = upgradeInfo[3].number.add(toBuy);
-                updateUI();
-            }
+            
         }
 
         private function updateUI():void
         {
-            autoRate = upgradeInfo[0].number.add(upgradeInfo[2].number.multiply(new BigDouble(5,0)));
-            cookiesPerClick = upgradeInfo[1].number.add(upgradeInfo[3].number.multiply(new BigDouble(5,0)));
-            cookieText.text = "Cookies: " + formatNumber(cookies);
-            cpsText.text = "Per second: " + formatNumber(autoRate) + "\nPer click: " + formatNumber(cookiesPerClick);
+            if ((Math.floor(timeTotal/10))%noteMax == 0) {
+                note = "Welcome to Flash Clicker.";
+            } else if ((Math.floor(timeTotal/10))%noteMax == 1) {
+                note = "If an item is stuck at 115 generators, just turn off OCD until the item is ready.";
+            } else if ((Math.floor(timeTotal/10))%noteMax == 2) {
+                note = "null";
+            } else if ((Math.floor(timeTotal/10))%noteMax == 3) {
+                note = timeTotal.toFixed(3);
+            } else if ((Math.floor(timeTotal/10))%noteMax == 4) {
+                note = "I ran out of ideas";
+            }
+            autoRate = (upgradeInfo[0].number.multiply(upgradeInfo[0].multiplier)).add(
+                upgradeInfo[2].number.multiply(upgradeInfo[2].multiplier).multiply(new BigDouble(5,0))
+            ).add(
+                upgradeInfo[4].number.multiply(upgradeInfo[4].multiplier).multiply(new BigDouble(25,0))
+            );
+            flashesPerClick = (upgradeInfo[1].number.multiply(upgradeInfo[1].multiplier)).add(
+                upgradeInfo[3].number.multiply(upgradeInfo[3].multiplier).multiply(new BigDouble(5,0))
+            ).add(
+                upgradeInfo[5].number.multiply(upgradeInfo[5].multiplier).multiply(new BigDouble(25,0))
+            );
+            flashText.text = "Flashes: " + formatNumber(flashes);
+            flpsText.text = "Per second: " + formatNumber(autoRate) + "\nPer click: " + formatNumber(flashesPerClick) + "\n" + note;
             var i00001:int = -1;
             while (++i00001 < upgradeInfo.length) {
-                upgradeInfo[i00001].cost = upgradeInfo[i00001].InitCost.multiply( upgradeInfo[i00001].coefficient.pow(upgradeInfo[i00001].number).multiply(upgradeInfo[i00001].coefficient.pow(toBuy).subtract(new BigDouble(1,0))).divide(upgradeInfo[i00001].coefficient.subtract(new BigDouble(1,0))));
+                toBuy2[i00001] = toBuy;
+                if (toBuyMax) {
+                    toBuy2[i00001] = (
+                        (((flashes.multiply(upgradeInfo[i00001].coefficient.subtract(new BigDouble(1,0)))).divide(upgradeInfo[i00001].InitCost.multiply(upgradeInfo[i00001].coefficient.pow(upgradeInfo[i00001].number))).add(new BigDouble(1,0))).log10Big()).divide(upgradeInfo[i00001].coefficient.log10Big())
+                    ).divide(toBuy).floor().multiply(toBuy);
+                    if (toBuy2[i00001].lessThan(toBuy)) {
+                        toBuy2[i00001] = toBuy;
+                    }
+                }
+                if (toBuyOCD) {
+                    toBuy2[i00001] = toBuy2[i00001].subtract(upgradeInfo[i00001].number.mod(toBuy));
+                }
+                upgradeInfo[i00001].cost = upgradeInfo[i00001].InitCost.multiply( upgradeInfo[i00001].coefficient.pow(upgradeInfo[i00001].number).multiply(upgradeInfo[i00001].coefficient.pow(toBuy2[i00001]).subtract(new BigDouble(1,0))).divide(upgradeInfo[i00001].coefficient.subtract(new BigDouble(1,0))));
+                upgradeTexts[i00001].text = upgradeInfo[i00001].name + "\nCost: " + formatNumber(upgradeInfo[i00001].cost) + "\n" + formatNumber(upgradeInfo[i00001].number) + " (+" + formatNumber(toBuy2[i00001]) + ")";
+                if (flashes.lessThan(upgradeInfo[i00001].cost)) {
+                    upgradeButtons[i00001].alpha = 0.5;
+                } else {upgradeButtons[i00001].alpha = 1.0;}
+                upgradeTexts[i00001].scale = upgradeButtons[i00001].scale;
+                upgradeTexts[i00001].x = upgradeButtons[i00001].x;
+                upgradeTexts[i00001].y = upgradeButtons[i00001].y;
             }
 
+            ToBuyText.scale = ToBuyButton.scale;
+            ToBuyText.x = ToBuyButton.x;
+            ToBuyText.y = ToBuyButton.y;
             ToBuyText.text = "x" + int(toBuy);
-
-            upgradeText.text = upgradeInfo[0].name + "\nCost: " + formatNumber(upgradeInfo[0].cost) + "\n" + formatNumber(upgradeInfo[0].number);
-            upgradeText2.text = upgradeInfo[1].name + "\nCost: " + formatNumber(upgradeInfo[1].cost) + "\n" + formatNumber(upgradeInfo[1].number);
-            upgradeText3.text = upgradeInfo[2].name + "\nCost: " + formatNumber(upgradeInfo[2].cost) + "\n" + formatNumber(upgradeInfo[2].number);
-            upgradeText4.text = upgradeInfo[3].name + "\nCost: " + formatNumber(upgradeInfo[3].cost) + "\n" + formatNumber(upgradeInfo[3].number);
-            if (cookies.lessThan(upgradeInfo[0].cost)) {
-                upgradeButton.alpha = 0.5;
-            } else {upgradeButton.alpha = 1.0;}
-            if (cookies.lessThan(upgradeInfo[1].cost)) {
-                upgradeButton2.alpha = 0.5;
-            } else {upgradeButton2.alpha = 1.0;}
-            if (cookies.lessThan(upgradeInfo[2].cost)) {
-                upgradeButton3.alpha = 0.5;
-            } else {upgradeButton3.alpha = 1.0;}
-            if (cookies.lessThan(upgradeInfo[3].cost)) {
-                upgradeButton4.alpha = 0.5;
-            } else {upgradeButton4.alpha = 1.0;}
+            ToBuyMaxText.scale = ToBuyMaxButton.scale;
+            ToBuyMaxText.x = ToBuyMaxButton.x;
+            ToBuyMaxText.y = ToBuyMaxButton.y;
+            ToBuyMaxText.text = "Max: " + toBuyMax;
+            ToBuyOCDText.scale = ToBuyOCDButton.scale;
+            ToBuyOCDText.x = ToBuyOCDButton.x;
+            ToBuyOCDText.y = ToBuyOCDButton.y;
+            ToBuyOCDText.text = "OCD: " + toBuyOCD;
         }
     }
 }

@@ -39,6 +39,52 @@ package utils
                 exponent--;
             }
         }
+        public static function exp(n:Number):BigDouble
+        {
+            var exp10:Number = n / Math.LN10;
+
+            var e:int = Math.floor(exp10);
+            var m:Number = Math.pow(10, exp10 - e);
+
+            return new BigDouble(m, e);
+        }
+        public function floor():BigDouble
+        {
+            // If number is small, convert safely
+            if (exponent < 15)
+            {
+                return BigDouble.fromNumber(Math.floor(this.toNumber()));
+            }
+
+            // Large numbers are already integers
+            return this.clone();
+        }
+        public function ceil():BigDouble
+        {
+            if (exponent < 15)
+            {
+                return BigDouble.fromNumber(Math.ceil(this.toNumber()));
+            }
+
+            return this.clone();
+        }
+        public function round():BigDouble
+        {
+            if (exponent < 15)
+            {
+                return BigDouble.fromNumber(Math.round(this.toNumber()));
+            }
+
+            return this.clone();
+        }
+        public function ln():Number
+        {
+            if (mantissa <= 0)
+                throw new Error("ln undefined for non-positive numbers");
+
+            // ln(a × 10^b) = ln(a) + b * ln(10)
+            return Math.log(mantissa) + exponent * Math.LN10;
+        }
 
         // ➕ Addition
         public function add(other:BigDouble):BigDouble
@@ -131,7 +177,29 @@ package utils
         // 📊 log10 (VERY important for idle games)
         public function log10():Number
         {
-            return exponent + Math.log(mantissa) / Math.LN10;
+            if (mantissa <= 0)
+                throw new Error("log10 undefined for non-positive numbers");
+
+            var log:Number = Math.log(mantissa) / Math.LN10;
+
+            // Clamp tiny floating errors
+            if (Math.abs(log) < 1e-15) log = 0;
+
+            return exponent + log;
+        }
+        public function log10Big():BigDouble
+        {
+            if (mantissa <= 0)
+                throw new Error("log10 undefined for non-positive numbers");
+
+            var logMantissa:Number = Math.log(mantissa) / Math.LN10;
+
+            // Keep exponent separate for better precision
+            return new BigDouble(logMantissa, 0).add(new BigDouble(exponent, 0));
+        }
+        public function log10Int():int
+        {
+            return exponent;
         }
 
         // ⚖ Compare
