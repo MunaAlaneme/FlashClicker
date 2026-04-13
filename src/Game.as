@@ -58,20 +58,20 @@ package {
             {InitCost: new BigDouble(1500,0), cost: new BigDouble(1500,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)}
         ];
         private var upgradeMilestonesLevels:Array = [
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000]
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 333, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 750, 800, 850, 900, 950, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4250, 4500, 4750, 5000, 5300, 5600],
+            [10, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 333, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 750, 800, 850, 900, 950, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4250, 4500, 4750, 5000, 5300, 5600],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000]
         ];
         private var upgradeMilestonesMultipliers:Array = [
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999]
+            [1.5, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 5, 4, 11, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 5, 4, 33, 4, 4, 4, 5, 5, 5, 5, 5, 10, 3, 3, 4, 4, 5, 3, 3, 66, 3, 3, 3, 77, 3, 9, 9, 9, 88, 20, 10, 5, 5, 5, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 5, 4, 11, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 5, 4, 33, 4, 4, 4, 5, 5, 5, 5, 5, 10, 3, 3, 4, 4, 5, 3, 3, 66, 3, 3, 3, 77, 3, 9, 9, 9, 88, 20, 10, 5, 5, 5, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 2.5, 2.5, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5, 5, 5, 5.5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 2.5, 2.5, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5, 5, 5, 5.5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999]
         ];
 
         private var note:String;
@@ -98,6 +98,15 @@ package {
         private var ToBuyMaxText:TextField;
         private var ToBuyOCDButton:Quad;
         private var ToBuyOCDText:TextField;
+
+        private var scrollContainer:Sprite;
+        private var scrollMask:Quad;
+
+        private var scrollX:Number = 0;
+        private var maxScroll:Number = 0;
+
+        private var scrollbar:Quad;
+        private var isDraggingScroll:Boolean = false;
 
         private var musicStart:Sound;
         private var musicLoop:Sound;
@@ -268,7 +277,6 @@ package {
 //button.y = screenHeight * 0.8;
             // Flash button
             flashButton = createLightning(4);
-            //flashButton = new Quad(250*(screenWidth/1280), 250*(screenHeight/720), 0xCC9900);
             flashButton.x = 640;
             flashButton.y = 200;
             flashButton.width = 120;
@@ -317,67 +325,52 @@ package {
             ToBuyOCDText.touchable = false;
             addChild(ToBuyOCDText);
 
+            scrollContainer = new Sprite();
+            addChild(scrollContainer);
+
+            // Mask (visible area)
+            scrollMask = new Quad(1000, 200, 0x000000);
+            scrollMask.alpha = 0.0; // invisible but still masks
+            scrollMask.x = 20;
+            scrollMask.y = 200;
+
+            addChild(scrollMask);
+
+            scrollContainer.x = scrollMask.x;
+            scrollContainer.y = scrollMask.y;
+
+            scrollContainer.mask = scrollMask;
+
             // Upgrade button
-            upgradeButtons[0].x = 140;
-            upgradeButtons[0].y = 480;
-            upgradeButtons[0].addEventListener(TouchEvent.TOUCH, onUpgrade);
+            i = -1;
+            while (++i < 6) {
+                upgradeButtons[i].x = 60 + i*320 - scrollX;
+                upgradeButtons[i].y = 480;
+                upgradeButtons[i].addEventListener(TouchEvent.TOUCH, onUpgrade);
 
-            upgradeTexts[0].x = 140;
-            upgradeTexts[0].y = 480;
-            upgradeTexts[0].touchable = false;
+                upgradeTexts[i].x = 60 + i*320 - scrollX;
+                upgradeTexts[i].y = 480;
+                upgradeTexts[i].touchable = false;
+            }
 
-            upgradeButtons[1].x = 490;
-            upgradeButtons[1].y = 480;
-            upgradeButtons[1].addEventListener(TouchEvent.TOUCH, onUpgrade);
-
-            upgradeTexts[1].x = 490;
-            upgradeTexts[1].y = 480;
-            upgradeTexts[1].touchable = false;
-
-            upgradeButtons[2].x = 840;
-            upgradeButtons[2].y = 480;
-            upgradeButtons[2].addEventListener(TouchEvent.TOUCH, onUpgrade);
-
-            upgradeTexts[2].x = 840;
-            upgradeTexts[2].y = 480;
-            upgradeTexts[2].touchable = false;
-
-            upgradeButtons[3].x = 140;
-            upgradeButtons[3].y = 600;
-            upgradeButtons[3].addEventListener(TouchEvent.TOUCH, onUpgrade);
-
-            upgradeTexts[3].x = 140;
-            upgradeTexts[3].y = 600;
-            upgradeTexts[3].touchable = false;
-
-            upgradeButtons[4].x = 490;
-            upgradeButtons[4].y = 600;
-            upgradeButtons[4].addEventListener(TouchEvent.TOUCH, onUpgrade);
-
-            upgradeTexts[4].x = 490;
-            upgradeTexts[4].y = 600;
-            upgradeTexts[4].touchable = false;
-
-            upgradeButtons[5].x = 840;
-            upgradeButtons[5].y = 600;
-            upgradeButtons[5].addEventListener(TouchEvent.TOUCH, onUpgrade);
-
-            upgradeTexts[5].x = 840;
-            upgradeTexts[5].y = 600;
-            upgradeTexts[5].touchable = false;
-
-            upgradeButtons[0].addEventListener(TouchEvent.TOUCH, onButtonTouch);
-            upgradeButtons[1].addEventListener(TouchEvent.TOUCH, onButtonTouch);
-            upgradeButtons[2].addEventListener(TouchEvent.TOUCH, onButtonTouch);
-            upgradeButtons[3].addEventListener(TouchEvent.TOUCH, onButtonTouch);
-            upgradeButtons[4].addEventListener(TouchEvent.TOUCH, onButtonTouch);
-            upgradeButtons[5].addEventListener(TouchEvent.TOUCH, onButtonTouch);
 
             for (i = 0; i < 6; i++) {
                 addChild(upgradeButtons[i]);
                 addChild(upgradeTexts[i]);
+                upgradeButtons[i].addEventListener(TouchEvent.TOUCH, onButtonTouch);
                 toBuy2.push(new BigDouble(1,0));
             }
+            maxScroll = Math.max(0, scrollContainer.width - scrollMask.width);
+            scrollMask.addEventListener(TouchEvent.TOUCH, onScrollTouch);
+
+            scrollbar = new Quad(50, 6, 0xAAAAAA);
+            scrollbar.y = scrollMask.y + scrollMask.height + 5;
+            scrollbar.x = scrollMask.x;
+
+            addChild(scrollbar);
+
+            scrollbar.addEventListener(TouchEvent.TOUCH, onScrollbarDrag);
+            addEventListener("mouseWheel", onMouseWheel);
 
             mouseCircle2 = new Quad(20, 20, 0xFFFFAA);
             mouseCircle2.pivotX = 10;
@@ -388,6 +381,73 @@ package {
             addChild(mouseCircle2);
 
             updateUI();
+        }
+
+        private function onScrollTouch(e:TouchEvent):void
+        {
+            var touch:Touch = e.getTouch(scrollMask);
+
+            if (!touch) return;
+
+            if (touch.phase == TouchPhase.MOVED)
+            {
+                var delta:Number = touch.getMovement(scrollMask).x;
+
+                scrollX -= delta;
+                clampScroll();
+            }
+        }
+        private function clampScroll():void
+        {
+            if (scrollX < 0) scrollX = 0;
+            if (scrollX > maxScroll) scrollX = maxScroll;
+
+            scrollContainer.x = scrollMask.x - scrollX;
+
+            updateScrollbar();
+        }
+
+        private function updateScrollbar():void
+        {
+            if (maxScroll <= 0)
+            {
+                scrollbar.visible = false;
+                return;
+            }
+
+            scrollbar.visible = true;
+
+            var ratio:Number = scrollX / maxScroll;
+
+            scrollbar.x = scrollMask.x + ratio * (scrollMask.width - scrollbar.width);
+        }
+
+        private function onScrollbarDrag(e:TouchEvent):void
+        {
+            var touch:Touch = e.getTouch(scrollbar);
+
+            if (!touch) return;
+
+            if (touch.phase == TouchPhase.MOVED)
+            {
+                var localX:Number = touch.getLocation(this).x - 25;
+
+                var minX:Number = scrollMask.x;
+                var maxX:Number = scrollMask.x + scrollMask.width - scrollbar.width;
+
+                scrollbar.x = Math.max(minX, Math.min(maxX, localX));
+
+                var ratio:Number = (scrollbar.x - minX) / (maxX - minX);
+
+                scrollX = ratio * maxScroll;
+
+                 scrollContainer.x += ((scrollMask.x - scrollX) - scrollContainer.x) * 0.2;
+            }
+        }
+        private function onMouseWheel(e:*):void
+        {
+            scrollX -= e.delta * 20;
+            clampScroll();
         }
 
         private function onUpdate(e:EnterFrameEvent):void
@@ -430,20 +490,12 @@ package {
                 x = 640;
                 y = 200;
             }
-            if (btn == upgradeButtons[0] || btn == upgradeButtons[1] || btn == upgradeButtons[2]) {
-                y = 480;
-            }
-            if (btn == upgradeButtons[3] || btn == upgradeButtons[4] || btn == upgradeButtons[5]) {
-                y = 600;
-            }
-            if (btn == upgradeButtons[0] || btn == upgradeButtons[3]) {
-                x = 140;
-            }
-            if (btn == upgradeButtons[1] || btn == upgradeButtons[4]) {
-                x = 490;
-            }
-            if (btn == upgradeButtons[2] || btn == upgradeButtons[5]) {
-                x = 840;
+            var i:int = -1;
+            while (++i < 6) {
+                if (btn == upgradeButtons[i]) {
+                    x = (60 + 320*i) - scrollX;
+                    y = 480;
+                }
             }
             if (btn == ToBuyButton) {
                 x = 400;
@@ -549,9 +601,8 @@ package {
                     // Scale cost (important for clicker games)
                     updateUI();
                 }
-                if (upgradeInfo[i].lastMultiplier != upgradeInfo[i].multiplier) {
+                if (!upgradeInfo[i].lastMultiplier.equals(upgradeInfo[i].multiplier)) {
                     soundsChannel = upgradeMilestoneSound.play();
-                    trace(upgradeInfo.lastMultiplier);
                 }
                 upgradeInfo[i].lastMultiplier = upgradeInfo[i].multiplier
                 upgradeInfo[i].multiplier = new BigDouble(1,0);

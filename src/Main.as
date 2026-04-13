@@ -4,6 +4,12 @@
 -output bin/Main.swf \
 src/Main.as
 
+'/Applications/AIRSDK_51.3.1.3/bin/mxmlc' \
+-source-path+=src \
+-library-path+=lib \
+-output bin/Main.swf \
+src/Main.as
+
 also use this if you want to build:
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)                                                              
 export PATH=$JAVA_HOME/bin:$PATH
