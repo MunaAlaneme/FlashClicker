@@ -132,6 +132,7 @@ package {
         private var clickSound:Sound;
         private var upgradeSound:Sound;
         private var upgradeMilestoneSound:Sound;
+        private var errorSound:Sound;
 
         private var musicChannel:SoundChannel;
         private var soundsChannel:SoundChannel;
@@ -187,6 +188,7 @@ package {
             clickSound = new Sound(new URLRequest("assets/audio/sound/Sample_0002.mp3"));
             upgradeSound = new Sound(new URLRequest("assets/audio/sound/Sample_0018.mp3"));
             upgradeMilestoneSound = new Sound(new URLRequest("assets/audio/sound/cybershock sfx_upgrade.mp3"));
+            errorSound = new Sound(new URLRequest("assets/audio/sound/error-4-2.mp3"));
             playStartMusic();
         }
         private function playStartMusic():void
