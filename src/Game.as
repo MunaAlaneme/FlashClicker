@@ -50,12 +50,18 @@ package {
         private var targetX:Number = 0;
         private var targetY:Number = 0;
         private var upgradeInfo:Array = [
-            {InitCost: new BigDouble(10,0), cost: new BigDouble(10,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Second", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
-            {InitCost: new BigDouble(15,0), cost: new BigDouble(15,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Click", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
-            {InitCost: new BigDouble(100,0), cost: new BigDouble(100,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
-            {InitCost: new BigDouble(150,0), cost: new BigDouble(150,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
-            {InitCost: new BigDouble(1000,0), cost: new BigDouble(1000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)},
-            {InitCost: new BigDouble(1500,0), cost: new BigDouble(1500,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0)}
+            {InitCost: new BigDouble(10,0), cost: new BigDouble(10,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Second", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(15,0), cost: new BigDouble(15,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+1 Flash Per Click", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(100,0), cost: new BigDouble(100,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(150,0), cost: new BigDouble(150,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+5 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(1000,0), cost: new BigDouble(1000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(1500,0), cost: new BigDouble(1500,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+25 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(10000,0), cost: new BigDouble(10000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+125 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(15000,0), cost: new BigDouble(15000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+125 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(100000,0), cost: new BigDouble(100000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+625 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(150000,0), cost: new BigDouble(150000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+625 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(1000000,0), cost: new BigDouble(1000000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+3125 FlPS", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
+            {InitCost: new BigDouble(1500000,0), cost: new BigDouble(1500000,0), coefficient: new BigDouble(1.07,0), number: new BigDouble(0,0), name: "+3125 FlPC", multiplier: new BigDouble(1,0), lastMultiplier: new BigDouble(1,0), mousePhase: ""},
         ];
         private var upgradeMilestonesLevels:Array = [
             [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
@@ -63,15 +69,27 @@ package {
             [10, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 333, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 750, 800, 850, 900, 950, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4250, 4500, 4750, 5000, 5300, 5600],
             [10, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 333, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 750, 800, 850, 900, 950, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4250, 4500, 4750, 5000, 5300, 5600],
             [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
-            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000]
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 9900, 9999, 10000],
+            [10, 25, 50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 10000],
+            [10, 25, 50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1111, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2200, 2222, 2400, 2600, 2800, 3000, 3200, 3333, 3400, 3600, 3800, 4000, 4250, 4444, 4500, 4750, 5000, 5250, 5500, 5555, 5750, 6000, 6300, 6600, 6666, 6900, 7200, 7500, 7777, 7800, 8100, 8400, 8700, 8888, 9100, 9500, 10000],
         ];
         private var upgradeMilestonesMultipliers:Array = [
             [1.5, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 5, 4, 11, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 5, 4, 33, 4, 4, 4, 5, 5, 5, 5, 5, 10, 3, 3, 4, 4, 5, 3, 3, 66, 3, 3, 3, 77, 3, 9, 9, 9, 88, 20, 10, 5, 5, 5, 9999],
             [1.5, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 5, 4, 11, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 5, 4, 33, 4, 4, 4, 5, 5, 5, 5, 5, 10, 3, 3, 4, 4, 5, 3, 3, 66, 3, 3, 3, 77, 3, 9, 9, 9, 88, 20, 10, 5, 5, 5, 9999],
             [1.5, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 2.5, 2.5, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5, 5, 5, 5.5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 9999],
             [1.5, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 2.5, 2.5, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5, 5, 5, 5.5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 9999],
-            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
-            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999]
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 12, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
+            [1.5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
+            [1.5, 5, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
+            [1.5, 5, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
+            [1.5, 5, 10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
+            [1.5, 5, 10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 20, 9999],
         ];
 
         private var note:String;
@@ -103,6 +121,7 @@ package {
         private var scrollMask:Quad;
 
         private var scrollX:Number = 0;
+        private var deltaScrollX:Number = 0;
         private var maxScroll:Number = 0;
 
         private var scrollbar:Quad;
@@ -261,7 +280,7 @@ package {
         }
         private function createUI():void
         {
-            for (var i:int = 0; i < 6; i++) {
+            for (var i:int = 0; i < upgradeInfo.length; i++) {
                 upgradeTexts.push(new TextField(300, 100, "", new TextFormat("Verdana", 20, 0xFFFFFF)));
                 upgradeButtons.push(new Quad(300*(screenWidth/1280), 100*(screenHeight/720), 0x4444AA));
             }
@@ -329,10 +348,10 @@ package {
             addChild(scrollContainer);
 
             // Mask (visible area)
-            scrollMask = new Quad(1000, 200, 0x000000);
+            scrollMask = new Quad(1240, 200, 0x000000);
             scrollMask.alpha = 0.0; // invisible but still masks
             scrollMask.x = 20;
-            scrollMask.y = 200;
+            scrollMask.y = 400;
 
             addChild(scrollMask);
 
@@ -343,7 +362,7 @@ package {
 
             // Upgrade button
             i = -1;
-            while (++i < 6) {
+            while (++i < upgradeInfo.length) {
                 upgradeButtons[i].x = 60 + i*320 - scrollX;
                 upgradeButtons[i].y = 480;
                 upgradeButtons[i].addEventListener(TouchEvent.TOUCH, onUpgrade);
@@ -354,7 +373,7 @@ package {
             }
 
 
-            for (i = 0; i < 6; i++) {
+            for (i = 0; i < upgradeInfo.length; i++) {
                 addChild(upgradeButtons[i]);
                 addChild(upgradeTexts[i]);
                 upgradeButtons[i].addEventListener(TouchEvent.TOUCH, onButtonTouch);
@@ -363,7 +382,7 @@ package {
             maxScroll = Math.max(0, scrollContainer.width - scrollMask.width);
             scrollMask.addEventListener(TouchEvent.TOUCH, onScrollTouch);
 
-            scrollbar = new Quad(50, 6, 0xAAAAAA);
+            scrollbar = new Quad(120, 20, 0xAAAAAA);
             scrollbar.y = scrollMask.y + scrollMask.height + 5;
             scrollbar.x = scrollMask.x;
 
@@ -425,8 +444,41 @@ package {
         private function onScrollbarDrag(e:TouchEvent):void
         {
             var touch:Touch = e.getTouch(scrollbar);
+            var lastScrollX:Number = scrollX;
+            deltaScrollX = 0;
 
-            if (!touch) return;
+            var filter:ColorMatrixFilter = new ColorMatrixFilter();
+            var x:Number = scrollbar.x;
+            var y:Number = scrollbar.y;
+            if (!touch)
+            {
+                // Mouse left button
+                scrollbar.alpha = 1.0;
+                tweenScale(scrollbar, 1.0)
+                scrollbar.filter = null;
+                return;
+            }
+
+            if (touch.phase == TouchPhase.HOVER)
+            {
+                // Hover effect
+                scrollbar.alpha = 0.8;
+                tweenScale(scrollbar, 1.05)
+                scrollbar.filter = new GlowFilter(0xFFFFFF, 0.5, 8, 8);
+            }
+            else if (touch.phase == TouchPhase.BEGAN)
+            {
+                // Click press
+                tweenScale(scrollbar, 0.95)
+                filter.tint(0xFFFFAA, 0.5);
+
+                scrollbar.filter = filter;
+            }
+            else if (touch.phase == TouchPhase.ENDED)
+            {
+                // Release
+                tweenScale(scrollbar, 1.05)
+            }
 
             if (touch.phase == TouchPhase.MOVED)
             {
@@ -439,9 +491,15 @@ package {
 
                 var ratio:Number = (scrollbar.x - minX) / (maxX - minX);
 
-                scrollX = ratio * maxScroll;
+                //scrollX = ratio * maxScroll;
+                scrollX = (scrollbar.x*2.5) - 20;
+                deltaScrollX = (lastScrollX-scrollX);
+                var i:int = -1;
+                while (++i < upgradeInfo.length) {
+                    upgradeButtons[i].x += deltaScrollX;
+                }
 
-                 scrollContainer.x += ((scrollMask.x - scrollX) - scrollContainer.x) * 0.2;
+                scrollContainer.x += ((scrollMask.x - scrollX) - scrollContainer.x) * 0.2;
             }
         }
         private function onMouseWheel(e:*):void
@@ -491,7 +549,7 @@ package {
                 y = 200;
             }
             var i:int = -1;
-            while (++i < 6) {
+            while (++i < upgradeInfo.length) {
                 if (btn == upgradeButtons[i]) {
                     x = (60 + 320*i) - scrollX;
                     y = 480;
@@ -544,6 +602,11 @@ package {
                 tweenPos(btn, (x - (btn.width*0.025)), y - (btn.height*0.025))
                 tweenScale(btn, 1.05)
             }
+            while (++i < upgradeInfo.length) {
+                if (btn == upgradeButtons[i]) {
+                    upgradeButtons[i].mousePhase = touch.phase;
+                }
+            }
         }
 
         private function onFlashClick(e:TouchEvent):void
@@ -592,7 +655,7 @@ package {
                 toBuyOCD = !toBuyOCD;
                 updateUI();
             }
-            for (var i:int = 0; i < 6; i++) {
+            for (var i:int = 0; i < upgradeInfo.length; i++) {
                 if (e.getTouch(upgradeButtons[i], TouchPhase.BEGAN) && (flashes.greaterOrEqual(upgradeInfo[i].cost)))
                 {
                     soundsChannel = upgradeSound.play();
@@ -634,11 +697,23 @@ package {
                 upgradeInfo[2].number.multiply(upgradeInfo[2].multiplier).multiply(new BigDouble(5,0))
             ).add(
                 upgradeInfo[4].number.multiply(upgradeInfo[4].multiplier).multiply(new BigDouble(25,0))
+            ).add(
+                upgradeInfo[6].number.multiply(upgradeInfo[6].multiplier).multiply(new BigDouble(125,0))
+            ).add(
+                upgradeInfo[8].number.multiply(upgradeInfo[8].multiplier).multiply(new BigDouble(625,0))
+            ).add(
+                upgradeInfo[10].number.multiply(upgradeInfo[10].multiplier).multiply(new BigDouble(3125,0))
             );
             flashesPerClick = (upgradeInfo[1].number.multiply(upgradeInfo[1].multiplier)).add(
                 upgradeInfo[3].number.multiply(upgradeInfo[3].multiplier).multiply(new BigDouble(5,0))
             ).add(
                 upgradeInfo[5].number.multiply(upgradeInfo[5].multiplier).multiply(new BigDouble(25,0))
+            ).add(
+                upgradeInfo[7].number.multiply(upgradeInfo[7].multiplier).multiply(new BigDouble(125,0))
+            ).add(
+                upgradeInfo[9].number.multiply(upgradeInfo[9].multiplier).multiply(new BigDouble(625,0))
+            ).add(
+                upgradeInfo[11].number.multiply(upgradeInfo[11].multiplier).multiply(new BigDouble(3125,0))
             );
             flashText.text = "Flashes: " + formatNumber(flashes);
             flpsText.text = "Per second: " + formatNumber(autoRate) + "\nPer click: " + formatNumber(flashesPerClick) + "\n" + note;
@@ -661,6 +736,7 @@ package {
                 if (flashes.lessThan(upgradeInfo[i00001].cost)) {
                     upgradeButtons[i00001].alpha = 0.5;
                 } else {upgradeButtons[i00001].alpha = 1.0;}
+
                 upgradeTexts[i00001].scale = upgradeButtons[i00001].scale;
                 upgradeTexts[i00001].x = upgradeButtons[i00001].x;
                 upgradeTexts[i00001].y = upgradeButtons[i00001].y;
