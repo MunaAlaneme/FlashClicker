@@ -19,7 +19,8 @@ package {
     import flash.utils.getTimer;
     import flash.media.*;
     import flash.events.Event;
-    import flash.net.URLRequest;
+    import flash.net.*;
+    import treefortress.sound.SoundManager;
 
     public class Game extends Sprite
     {
@@ -127,6 +128,56 @@ package {
         private var scrollbar:Quad;
         private var isDraggingScroll:Boolean = false;
 
+        private var _shared_object:SharedObject;
+        private var _bgm_player:SoundManager = new SoundManager();
+
+        public function get bgm_player():SoundManager
+        {
+            return _bgm_player;
+        }
+
+        private var _bgm_muted:Boolean;
+
+        public function get bgm_muted():Boolean
+        {
+            if (_shared_object.data.bgm_muted == null)
+            {
+                return false;
+            }
+            else
+            {
+                return _shared_object.data.bgm_muted;
+            }
+        }
+
+        public function set bgm_muted(value:Boolean):void
+        {
+            _bgm_player.mute = value;
+            _shared_object.setProperty("bgm_muted", value);
+            _shared_object.flush();
+
+        }
+        private var _sfx_muted:Boolean;
+
+        public function get sfx_muted():Boolean
+        {
+            if (_shared_object.data.sfx_muted == null)
+            {
+                return false;
+            }
+            else
+            {
+                return _shared_object.data.sfx_muted;
+            }
+        }
+
+        public function set sfx_muted(value:Boolean):void
+        {
+            //_sfx_player.mute = value;
+            _shared_object.setProperty("sfx_muted", value);
+            _shared_object.flush();
+        }
+
         private var musicStart:Sound;
         private var musicLoop:Sound;
         private var clickSound:Sound;
@@ -175,21 +226,23 @@ package {
             addEventListener(Event.ENTER_FRAME, onUpdate);
             createUI();
             var i:int = randomInt(1,3);
+            bgm_player.mute = false;
             if (i == 1) {
-                musicStart = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-start.mp3"));
-                musicLoop  = new Sound(new URLRequest("assets/audio/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-loop.mp3"));
+                musicStart = new Sound(new URLRequest("assets/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-start.mp3"));
+                musicLoop  = new Sound(new URLRequest("assets/music/Peter Godfrey (Music for Media) - Hold on a Thereminute (Volume 5)-loop.mp3"));
+                playStartMusic();
             } else if (i == 2) {
-                musicStart = new Sound(new URLRequest("assets/audio/music/Casino Park - Sonic Heroes [OST]-start.mp3"));
-                musicLoop  = new Sound(new URLRequest("assets/audio/music/Casino Park - Sonic Heroes [OST]-loop.mp3"));
+                musicStart = new Sound(new URLRequest("assets/music/Casino Park - Sonic Heroes [OST]-start.mp3"));
+                musicLoop  = new Sound(new URLRequest("assets/music/Casino Park - Sonic Heroes [OST]-loop.mp3"));
+                playStartMusic();
             } else if (i == 3) {
-                musicStart = new Sound(new URLRequest("assets/audio/music/2024 OSHIN - November22nd12AM.mp3"));
-                musicLoop  = new Sound(new URLRequest("assets/audio/music/2024 OSHIN - November22nd12AM.mp3"));
+                bgm_player.loadSound("assets/music/2024 OSHIN - November22nd12AM.mp3", "game_loop");
+                bgm_player.playLoop("game_loop", 1);
             }
-            clickSound = new Sound(new URLRequest("assets/audio/sound/Sample_0002.mp3"));
-            upgradeSound = new Sound(new URLRequest("assets/audio/sound/Sample_0018.mp3"));
-            upgradeMilestoneSound = new Sound(new URLRequest("assets/audio/sound/cybershock sfx_upgrade.mp3"));
-            errorSound = new Sound(new URLRequest("assets/audio/sound/error-4-2.mp3"));
-            playStartMusic();
+            clickSound = new Sound(new URLRequest("assets/sound/Sample_0002.mp3"));
+            upgradeSound = new Sound(new URLRequest("assets/sound/Sample_0018.mp3"));
+            upgradeMilestoneSound = new Sound(new URLRequest("assets/sound/cybershock sfx_upgrade.mp3"));
+            errorSound = new Sound(new URLRequest("assets/sound/error-4-2.mp3"));
         }
         private function playStartMusic():void
         {
@@ -658,6 +711,10 @@ package {
                 updateUI();
             }
             for (var i:int = 0; i < upgradeInfo.length; i++) {
+                if (e.getTouch(upgradeButtons[i], TouchPhase.BEGAN) && (flashes.lessThan(upgradeInfo[i].cost)))
+                {
+                    soundsChannel = errorSound.play();
+                }
                 if (e.getTouch(upgradeButtons[i], TouchPhase.BEGAN) && (flashes.greaterOrEqual(upgradeInfo[i].cost)))
                 {
                     soundsChannel = upgradeSound.play();
